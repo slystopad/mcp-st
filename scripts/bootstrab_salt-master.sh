@@ -38,7 +38,7 @@ done
 echo "Preparing base OS ..."
 which wget >/dev/null || (aptget_wrapper update; aptget_wrapper install -y wget)
 
-echo "deb [arch=amd64] http://apt-mk.mirantis.com/xenial nightly salt extra" > /etc/apt/sources.list.d/mcp_salt.list
+echo "deb [arch=amd64] http://apt-mk.mirantis.com/xenial stable salt extra" > /etc/apt/sources.list.d/mcp_salt.list
 wget -O - http://apt-mk.mirantis.com/public.gpg | apt-key add -
 
 echo "deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.3 xenial main" > /etc/apt/sources.list.d/saltstack.list
