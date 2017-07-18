@@ -5,7 +5,7 @@ codename=xenial
 # 12.04 | 14.04 | 16.04
 version=16.04
 # salt master
-config_host=X.X.X.X
+config_host=$SALT_MASTER_HOST
 node_name=$(hostname)
 
 echo "Preparing base OS ..."
@@ -29,5 +29,5 @@ rm -f /etc/salt/pki/minion/minion_master.pub
 service salt-minion restart
 echo "Showing node metadata..."
 salt-call --no-color pillar.data
-echo "Running complete state ..."
-salt-call --no-color state.sls linux,openssh,salt -l info
+#echo "Running complete state ..."
+#salt-call --no-color state.sls linux,openssh,salt -l info
