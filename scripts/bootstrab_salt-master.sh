@@ -1,8 +1,18 @@
 #!/bin/bash
 
 # Redirect all outputs
-exec > >(tee -i /tmp/mk-bootstrap.log) 2>&1
+exec > >(tee -i /tmp/mk-manual-bootstrap.log) 2>&1
 set -x
+
+reclass_private_key=''
+## salt master id_rsa key as string
+#key_private=''
+NODE_NAME=${NODE_NAME:-$(hostname)}
+RECLASS_ADDRESS=${RECLASS_ADDRESS:-'git@GITOLITE-IP-ADDRESS:mk-lab-salt-model.git'}
+RECLASS_BRANCH=${RECLASS_BRANCH:-'master'}
+### ???
+#$config_host: localhost
+
 
 # Add wrapper to apt-get to avoid race conditions
 # with cron jobs running 'unattended-upgrades' script
@@ -42,10 +52,10 @@ aptget_wrapper install -y reclass git
 aptget_wrapper install -y salt-master
 
 [ ! -d /root/.ssh ] && mkdir -p /root/.ssh
-cat << 'EOF' > /root/.ssh/id_rsa
-$key_private
-EOF
-chmod 400 /root/.ssh/id_rsa
+#cat << 'EOF' > /root/.ssh/id_rsa
+#$key_private
+#EOF
+#chmod 400 /root/.ssh/id_rsa
 
 # Setup the private key for cloning the reclass model (optional)
 if [[ "$reclass_private_key" != "" ]]; then
@@ -78,6 +88,9 @@ EOF
 echo "Configuring reclass ..."
 ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 git clone -b $reclass_branch --recurse-submodules $reclass_address /srv/salt/reclass
+
+exit 0
+
 mkdir -p /srv/salt/reclass/classes/service
 
 FORMULA_PATH=${FORMULA_PATH:-/usr/share/salt-formulas}
@@ -120,7 +133,7 @@ EOF
 echo "Configuring salt minion ..."
 [ ! -d /etc/salt/minion.d ] && mkdir -p /etc/salt/minion.d
 cat << "EOF" > /etc/salt/minion.d/minion.conf
-id: $node_name
+id: $NODE_NAME
 master: 127.0.0.1
 EOF
 aptget_wrapper install -y salt-minion
@@ -141,17 +154,6 @@ salt-call --no-color state.sls salt.master
 salt-call --no-color saltutil.sync_all
 salt-call --no-color state.sls salt.api,salt.minion.ca -l info
 systemctl restart salt-minion
-$wait_condition_notify -k --data-binary '{"status": "SUCCESS"}'
 
 reclass-salt --top
 salt-call --no-color state.sls salt.minion.cert -l info
-
-params:
-$key_private: { get_param: key_private }
-$node_name: { get_param: instance_name }
-$reclass_address: { get_param: reclass_address }
-$reclass_branch: { get_param: reclass_branch }
-$reclass_private_key: { get_param: reclass_private_key }
-$wait_condition_notify: { get_attr: [cfg01_wait_handle, curl_cli] }
-$config_host: localhost
-
