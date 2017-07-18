@@ -94,7 +94,7 @@ exit 0
 mkdir -p /srv/salt/reclass/classes/service
 
 FORMULA_PATH=${FORMULA_PATH:-/usr/share/salt-formulas}
-FORMULA_REPOSITORY=${FORMULA_REPOSITORY:-deb [arch=amd64] http://apt-mk.mirantis.com/xenial testing salt}
+FORMULA_REPOSITORY=${FORMULA_REPOSITORY:-deb [arch=amd64] http://apt-mk.mirantis.com/xenial stable salt}
 FORMULA_GPG=${FORMULA_GPG:-http://apt-mk.mirantis.com/public.gpg}
 
 echo "Configuring salt master formulas ..."
