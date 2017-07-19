@@ -26,4 +26,9 @@ git submodule add $SYSTEM_MODEL_GIT_URL classes/system/
 git add classes/system
 git commit -am "Initial commit cluster model $CLUSTER_MODEL_ARC and sys model $SYSTEM_MODEL_GIT_URL"
 
+## Next step is to put full reclass model into deployment specific GIT repo
+## (git server on Foundation node in MCP environment)
+# git remote set-url origin git@192.168.200.4:mcp-st-reclass-model
+# git push origin master
+
 
