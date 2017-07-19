@@ -17,6 +17,8 @@ git config --global user.name "$USER"
 git config --global user.email "$USER@$(hostname)"
 
 tar -xzf $CLUSTER_MODEL_ARC
+git add ./classes
+git add ./nodes
 
 mkdir -p classes/cluster
 git submodule add $SYSTEM_MODEL_GIT_URL classes/system/
