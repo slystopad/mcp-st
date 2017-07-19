@@ -88,7 +88,7 @@ EOF
 echo "Configuring reclass ..."
 ## Disabling github keys as far as we use in-env GIT server
 #ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-git clone -b $reclass_branch --recurse-submodules $RECLASS_ADDRESS /srv/salt/reclass
+git clone -b $RECLASS_BRANCH --recurse-submodules $RECLASS_ADDRESS /srv/salt/reclass
 
 exit 0
 
