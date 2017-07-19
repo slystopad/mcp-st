@@ -72,17 +72,17 @@ fi
 
 cat << 'EOF' > /etc/salt/master.d/master.conf
 file_roots:
-base:
-- /usr/share/salt-formulas/env
+  base:
+  - /usr/share/salt-formulas/env
 pillar_opts: False
 open_mode: True
 reclass: &reclass
-storage_type: yaml_fs
-inventory_base_uri: /srv/salt/reclass
+  storage_type: yaml_fs
+  inventory_base_uri: /srv/salt/reclass
 ext_pillar:
-- reclass: *reclass
+  - reclass: *reclass
 master_tops:
-reclass: *reclass
+  reclass: *reclass
 EOF
 
 echo "Configuring reclass ..."
