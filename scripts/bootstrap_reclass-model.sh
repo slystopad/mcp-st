@@ -10,6 +10,9 @@ RECLASS_HOME=${RECLASS_HOME:-'/srv/salt/reclass'}
 mkdir -p $RECLASS_HOME
 cd $RECLASS_HOME
 git init
+git config --global user.name "$USER"
+git config --global user.email "$USER@$(hostname)"
+
 tar -xzf $CLUSTER_MODEL_ARC
 
 mkdir -p classes/cluster
