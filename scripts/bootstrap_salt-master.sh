@@ -90,8 +90,6 @@ echo "Configuring reclass ..."
 #ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 git clone -b $RECLASS_BRANCH --recurse-submodules $RECLASS_ADDRESS /srv/salt/reclass
 
-exit 0
-
 mkdir -p /srv/salt/reclass/classes/service
 
 FORMULA_PATH=${FORMULA_PATH:-/usr/share/salt-formulas}
@@ -146,6 +144,8 @@ systemctl restart salt-minion
 echo "Showing system info and metadata ..."
 salt-call --no-color grains.items
 salt-call --no-color pillar.data
+
+exit 0
 
 echo "Running complete state ..."
 salt-call --no-color state.sls linux,openssh -l info
