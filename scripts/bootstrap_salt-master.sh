@@ -131,7 +131,7 @@ EOF
 
 echo "Configuring salt minion ..."
 [ ! -d /etc/salt/minion.d ] && mkdir -p /etc/salt/minion.d
-cat << "EOF" > /etc/salt/minion.d/minion.conf
+cat << EOF > /etc/salt/minion.d/minion.conf
 id: $NODE_NAME
 master: 127.0.0.1
 EOF
